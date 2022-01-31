@@ -19,6 +19,19 @@ function favorite(req, res) {
 app.get("/", homePage);
 app.get("/favorite", favorite);
 
+// app.use(function(err,req,tes,text){
+//     console.error(err.stack);
+//     res.type('text/plain');
+//     res.status(500);
+//     res.send('Sorry, something went wrong 500');
+// })
+
+// app.use(function(err,req,tes,text){
+//     console.error(err.stack);
+//     res.type('text/plain');
+//     res.status(404);
+//     res.send('Sorry, something went wrong 404');
+// })
 
 app.listen(3200, () => {
     console.log("hello");
