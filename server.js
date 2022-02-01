@@ -22,10 +22,11 @@ function trending(req, res) {
             
             trending.push(oneResult);
             
-        }).catch(function (error) {
-            console.log(error);
-            res.sendStatus(500).send("error: " + error)
-        });
+        })
+        // .catch(function (error) {
+        //     console.log(error);
+        //     res.sendStatus(500).send("error: " + error)
+        // });
         return res.status(200).json(trending);
     })
     
@@ -36,15 +37,17 @@ function search(req, res) {
     searchValue.data.results.forEach(result =>{
         let searchResult=new Data(result.id,result.title,result.release_date,result.poster_path,result.overview);
         search.push(searchResult);
-    }).catch(function (error) {
-        console.log(error);
-        res.sendStatus(500).send("error: " + error)
-    });
+    })
+    // .catch(function (error) {
+    //     console.log(error);
+    //     res.sendStatus(500).send("error: " + error)
+    // });
     return res.status(200).json(search);
     })
 }
 app.get("/trending", trending);
 app.get("/search", search);
+
 
 // app.use(function(err,req,tes,text){
 //     console.error(err.stack);
@@ -60,6 +63,6 @@ app.get("/search", search);
 //     res.send('Sorry, something went wrong 404');
 // })
 
-app.listen(3320, () => {
+app.listen(3120, () => {
     console.log("hello");
 })
