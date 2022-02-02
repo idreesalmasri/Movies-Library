@@ -103,6 +103,9 @@ function homePage(req, res) {
       res.sendStatus(500).send("error: " + error)
   });
   }
+
+
+  
 app.get("/", homePage);
 app.get("/favorite", favorite);
 app.get("/trending", trending);
