@@ -88,13 +88,24 @@ function homePage(req, res) {
     client.query(sql,values).then((data)=>{
       return res.status(201).json(data.rows[0]);
     })
+    .catch(function (error) {
+      console.log(error);
+      res.sendStatus(500).send("error: " + error)
+  });
   }
   function getallmovie(req,res){
     const sql =`SELECT * FROM myFavorite`;
     client.query(sql).then(data=>{
       return res.status(200).json(data.rows);
     })
+    .catch(function (error) {
+      console.log(error);
+      res.sendStatus(500).send("error: " + error)
+  });
   }
+
+
+  
 app.get("/", homePage);
 app.get("/favorite", favorite);
 app.get("/trending", trending);
