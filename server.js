@@ -20,6 +20,8 @@ function Data(id,title,release_date, poster_path, overview) {
     this.posterPath = poster_path;
     this.overview = overview;
 }
+
+
 function trending(req, res) {
     let trending =[];
     axios.get(`https://api.themoviedb.org/3/trending/all/week?api_key=${APIKEY}&language=en-US&number=10`).then(value =>{
@@ -39,6 +41,8 @@ function trending(req, res) {
   });
     
 }
+
+
 function search(req, res) {
     let searchQuery=req.query.search;
     let search=[];
@@ -55,6 +59,8 @@ function search(req, res) {
       res.sendStatus(500).send("error: " + error)
   });
 }
+
+
 function nowPlaying(req, res) {
     let trending =[];
     axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${APIKEY}&language=en-US&page=1&number=10`).then(value =>{
@@ -73,13 +79,19 @@ function nowPlaying(req, res) {
       res.sendStatus(500).send("error: " + error)
   });
 }
+
+
 function homePage(req, res) {
     let mydata = new Data(data.title, data.poster_path, data.overview)
     return res.status(200).json(mydata);
   }
+
+
   function favorite(req, res) {
     return res.status(200).send("Welcome to Favorite Page");
   }
+
+
   function addmovie(req,res){
     console.log(req.body);
     let newMovie=req.body;
@@ -93,6 +105,8 @@ function homePage(req, res) {
       res.sendStatus(500).send("error: " + error)
   });
   }
+
+
   function getallmovie(req,res){
     const sql =`SELECT * FROM myFavorite`;
     client.query(sql).then(data=>{
@@ -105,7 +119,49 @@ function homePage(req, res) {
   }
 
 
-  
+function getSpecificMovie(req,res){
+  const id=req.params.id;
+  const sql =`SELECT * FROM myFavorite WHERE id=${id}`;
+  client.query(sql).then(data=>{
+    res.status(200).json(data.rows);
+  })
+  .catch(function (error) {
+    console.log(error);
+    res.sendStatus(500).send("error: " + error)
+});
+}
+
+
+function update(req,res){
+  const id =req.params.id;
+  const movie =req.body;
+  const sql =`UPDATE myFavorite SET title=$1,release_date=$2,poster_path=$3,overview=$4,comment=$5 WHERE id=${id} RETURNING *`;
+  const values=[movie.title,movie.release_date,movie.poster_path,movie.overview,movie.comment];
+  client.query(sql,values).then(data=>{
+    res.status(200).json(data.rows);
+  })
+  .catch(function (error) {
+    console.log(error);
+    res.sendStatus(500).send("error: " + error)
+});
+}
+
+
+function deleteMovie(req,res){
+  const id =req.params.id;
+  const sql=`DELETE FROM myFavorite WHERE id=${id}`;
+  client.query(sql).then(()=>{
+    return res.status(204).json([]);
+  })
+  .catch(function (error) {
+    console.log(error);
+    res.sendStatus(500).send("error: " + error)
+});
+}  
+
+
+
+
 app.get("/", homePage);
 app.get("/favorite", favorite);
 app.get("/trending", trending);
@@ -113,6 +169,11 @@ app.get("/search", search);
 app.get("/movie/now_playing", nowPlaying);
 app.post("/addmovie",addmovie);
 app.get("/getallmovie",getallmovie)
+app.get("/getMovie/:id",getSpecificMovie);
+app.put("/UPDATE/:id",update);
+app.delete("/DELETE/id",deleteMovie);
+
+
 
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")
@@ -126,6 +187,9 @@ app.use(function (req, res, next) {
      }
      res.status(500).send(err);
    }
+
+
+
 client.connect().then (()=>{
 app.listen(3120, () => {
     console.log("hello");
