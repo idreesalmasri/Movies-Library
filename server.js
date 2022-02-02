@@ -5,7 +5,14 @@ const data = require('./data.json');
 const axios= require('axios');
 const dotenv=require('dotenv');
 dotenv.config();
+app.use(express.json());
 const APIKEY=process.env.APIKEY;
+const pg =require("pg");
+const DATABASE_URL=process.env.DATABASE_URL;
+const client = new pg.Client(DATABASE_URL);
+
+
+
 function Data(id,title,release_date, poster_path, overview) {
     this.id=id;
     this.title = title;
@@ -25,7 +32,8 @@ function trending(req, res) {
         })
         
         return res.status(200).json(trending);
-    }).catch(function (error) {
+    })
+    .catch(function (error) {
       console.log(error);
       res.sendStatus(500).send("error: " + error)
   });
@@ -41,7 +49,8 @@ function search(req, res) {
     })
     
     return res.status(200).json(search);
-    }).catch(function (error) {
+    })
+    .catch(function (error) {
       console.log(error);
       res.sendStatus(500).send("error: " + error)
   });
@@ -58,7 +67,8 @@ function nowPlaying(req, res) {
         })
         
         return res.status(200).json(trending);
-    }).catch(function (error) {
+    })
+    .catch(function (error) {
       console.log(error);
       res.sendStatus(500).send("error: " + error)
   });
@@ -70,12 +80,28 @@ function homePage(req, res) {
   function favorite(req, res) {
     return res.status(200).send("Welcome to Favorite Page");
   }
+  function addmovie(req,res){
+    console.log(req.body);
+    let newMovie=req.body;
+    const sql =`INSERT INTO myFavorite (title,releaseDate,posterPath,overview,comment)values($1,$2,$3,$4,$5) RETURNING *;`
+    let values=[newMovie.title,newMovie.release_date,newMovie.poster_path,newMovie.overview,newMovie.comment];
+    client.query(sql,values).then((data)=>{
+      return res.status(201).json(data.rows[0]);
+    })
+  }
+  function getallmovie(req,res){
+    const sql =`SELECT * FROM myFavorite`;
+    client.query(sql).then(data=>{
+      return res.status(200).json(data.rows);
+    })
+  }
 app.get("/", homePage);
 app.get("/favorite", favorite);
 app.get("/trending", trending);
 app.get("/search", search);
 app.get("/movie/now_playing", nowPlaying);
-
+app.post("/addmovie",addmovie);
+app.get("/getallmovie",getallmovie)
 
 app.use(function (req, res, next) {
   res.status(404).send("Sorry can't find that!")
@@ -89,7 +115,8 @@ app.use(function (req, res, next) {
      }
      res.status(500).send(err);
    }
-
+client.connect().then (()=>{
 app.listen(3120, () => {
     console.log("hello");
-})s
+});
+})
