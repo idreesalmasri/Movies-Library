@@ -5,7 +5,7 @@
 
 ## WRRC
 Add an image of your WRRC here
-!["wrrc"](03000003.png)
+!["wrrc"](wrrc.JPG)
 
 ## Overview
 
@@ -16,7 +16,9 @@ Add an image of your WRRC here
 <!-- i use constructore to format the data  -->
 <!-- we make two functions one for trending and another for search -->
 <!-- Create a route with a method of get and a path of /trndingfor trendng page and /search for search page -->
+<!-- in this task i add 3 more endpoint one of it for get specific id and the second one for delete data and the third one to update data -->
 
 ## Project Features
 <!-- my app show moves name and moves poster and overview for each move -->
 <!-- using my app you can see the trending movies and you can search for any movieyou want -->
+<!-- you can get data from saved data and you can update it and you can delete any saved data  -->

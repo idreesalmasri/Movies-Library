@@ -95,7 +95,7 @@ function homePage(req, res) {
   function addmovie(req,res){
     console.log(req.body);
     let newMovie=req.body;
-    const sql =`INSERT INTO myFavorite (title,releaseDate,posterPath,overview,comment)values($1,$2,$3,$4,$5) RETURNING *;`
+    const sql =`INSERT INTO myFavorite (title,release_Date,poster_Path,overview,comment)values($1,$2,$3,$4,$5) RETURNING *;`
     let values=[newMovie.title,newMovie.release_date,newMovie.poster_path,newMovie.overview,newMovie.comment];
     client.query(sql,values).then((data)=>{
       return res.status(201).json(data.rows[0]);
@@ -171,7 +171,7 @@ app.post("/addmovie",addmovie);
 app.get("/getallmovie",getallmovie)
 app.get("/getMovie/:id",getSpecificMovie);
 app.put("/UPDATE/:id",update);
-app.delete("/DELETE/id",deleteMovie);
+app.delete("/DELETE/:id",deleteMovie);
 
 
 
