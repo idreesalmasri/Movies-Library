@@ -95,7 +95,7 @@ function homePage(req, res) {
   function addmovie(req,res){
     console.log(req.body);
     let newMovie=req.body;
-    const sql =`INSERT INTO myFavorite (title,release_Date,poster_Path,overview,comment)values($1,$2,$3,$4,$5) RETURNING *;`
+    const sql =`INSERT INTO myFavorite (title,release_date,poster_path,overview,comment)values($1,$2,$3,$4,$5) RETURNING *;`
     let values=[newMovie.title,newMovie.release_date,newMovie.poster_path,newMovie.overview,newMovie.comment];
     client.query(sql,values).then((data)=>{
       return res.status(201).json(data.rows[0]);
