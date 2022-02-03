@@ -5,7 +5,7 @@
 
 ## WRRC
 Add an image of your WRRC here
-!["wrrc"](03000003.png)
+!["wrrc"](wrrc13.JPG)
 
 ## Overview
 
@@ -16,7 +16,9 @@ Add an image of your WRRC here
 <!-- i use constructore to format the data  -->
 <!-- we make two functions one for trending and another for search -->
 <!-- Create a route with a method of get and a path of /trndingfor trendng page and /search for search page -->
+<!-- and /movie/now_playing for now playing movies -->
 
 ## Project Features
 <!-- my app show moves name and moves poster and overview for each move -->
 <!-- using my app you can see the trending movies and you can search for any movieyou want -->
+<!-- you can see the movies that are playing now -->
