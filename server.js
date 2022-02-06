@@ -14,7 +14,7 @@ const client = new pg.Client({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
-
+const PORT=process.env.PORT;
 // new comment
 
 function Data(id,title,release_date, poster_path, overview) {
@@ -195,7 +195,7 @@ app.use(function (req, res, next) {
 
 
 client.connect().then (()=>{
-app.listen(3120, () => {
+app.listen(PORT, () => {
     console.log("hello");
 });
 })
