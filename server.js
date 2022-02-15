@@ -1,12 +1,13 @@
 `use strict`;
 const cors = require('cors');
-server.use(cors());
+
 const express = require('express');
 const app = express();
 const data = require('./data.json');
 const axios= require('axios');
 const dotenv=require('dotenv');
 dotenv.config();
+app.use(cors());
 app.use(express.json());
 const APIKEY=process.env.APIKEY;
 const pg =require("pg");
