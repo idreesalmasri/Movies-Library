@@ -1,4 +1,6 @@
 `use strict`;
+const cors = require('cors');
+server.use(cors());
 const express = require('express');
 const app = express();
 const data = require('./data.json');
